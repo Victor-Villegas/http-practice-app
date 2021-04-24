@@ -14,7 +14,7 @@ exports.getUrlParams = function (req) {
     });
   }
 
-  if (url[url.length - 1] === '/') {
+  if (url[url.length - 1] === '/' && url.length > 1) {
     url = url.split('');
     url.pop();
     url = url.join('');
