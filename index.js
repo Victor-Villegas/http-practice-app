@@ -29,8 +29,9 @@ const server = http.createServer(async (req, res) => {
 
         data = await fs.readFile('./public/books.txt', 'UTF-8');
         lines = data.split(/\r?\n/);
+        lines.pop();
 
-        for (let i = 0; i < lines.length; i += 4) {
+        for (let i = 0; i < lines.length; i += 3) {
           await fs.appendFile('./public/tmp_books.html', `<h3>${lines[i]}</h3>`, (error) => { if (error) { console.log(error); } });
           await fs.appendFile('./public/tmp_books.html', `<p>${lines[i + 1]}</p>`, (error) => { if (error) { console.log(error); } });
           await fs.appendFile('./public/tmp_books.html', `<p>${lines[i + 2]}</p>`, (error) => { if (error) { console.log(error); } });
@@ -101,13 +102,9 @@ const server = http.createServer(async (req, res) => {
             const jsonData = JSON.parse(data);
             const dataInfo = Object.entries(jsonData);
 
-            await fs.appendFile('./public/books.txt', '\n', (error) => { if (error) { console.log(error); } });
-
             dataInfo.forEach(async line => {
               await fs.appendFile('./public/books.txt', `${line[0]}: ${line[1]}\n`, (error) => { if (error) { console.log(error); } });
             });
-
-            await fs.appendFile('./public/books.txt', '\n', (error) => { if (error) { console.log(error); } });
 
             res.end('Info successfully added');
           });
